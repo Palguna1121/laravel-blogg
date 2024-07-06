@@ -20,14 +20,17 @@
           </tr>
         </thead>
         <tbody>
-            <th scope="row">1</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>
-                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addModalUser"><i class="bi bi-pencil-fill"></i></button>
-                <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-            </td>
-          </tr>
+          @foreach ($users as $user)
+            <tr>
+              <th scope="row">1</th>
+              <td>{{ $user->name }}</td>
+              <td>{{ $user->email }}</td>
+              <td>
+                  <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#addModalUser"><i class="bi bi-pencil-fill"></i></button>
+                  <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+              </td>
+            </tr>
+          @endforeach
         </tbody>
     </table>
 </div>

@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
+        $posts = DB::table('user_posts')->get();
         return view('posts.index', compact('posts'));
     }
 

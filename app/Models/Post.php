@@ -1,5 +1,7 @@
 <?php
 
+// app/Models/Post.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +30,6 @@ class Post extends Model
 
     public function tags()
     {
-        return $this->hasMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'post_tag');
     }
 }

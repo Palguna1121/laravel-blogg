@@ -1,5 +1,7 @@
 <?php
 
+// app/Models/Tag.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,10 +11,10 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'post_id'];
+    protected $fillable = ['name'];
 
-    public function post()
+    public function posts()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsToMany(Post::class, 'post_tag');
     }
 }

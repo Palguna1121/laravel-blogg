@@ -18,13 +18,16 @@
           </tr>
         </thead>
         <tbody>
-            <th scope="row">1</th>
-            <td>example</td>
-            <td>
-                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModalCategories"><i class="bi bi-pencil-fill" ></i></button>
-                <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
-            </td>
-          </tr>
+          @foreach ($categories as $category)
+            <tr>
+              <th scope="row">{{ $loop->iteration }}</th>
+              <td>{{ $category->name }}</td>
+              <td>
+                  <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModalCategories"><i class="bi bi-pencil-fill" ></i></button>
+                  <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+              </td>
+            </tr>
+          @endforeach
         </tbody>
     </table>
 </div>
