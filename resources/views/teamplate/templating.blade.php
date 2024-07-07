@@ -28,7 +28,7 @@
               @csrf
               <button type="submit">Logout</button>
           </form>
-      @endguest
+    @endguest
   </nav>
   </header>
 </div>
