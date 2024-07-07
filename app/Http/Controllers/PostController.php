@@ -62,4 +62,10 @@ class PostController extends Controller
         $post->delete();
         return redirect()->route('dashboard');
     }
+
+    public function logs()
+    {
+        $logs = DB::table('post_logs')->get();
+        return view('posts.logs', compact('logs'));
+    }
 }

@@ -30,6 +30,13 @@ Route::get('/dashboard', function () {
     return view('dashboard', ['posts' => $posts, 'tags_by_post' => $tags_by_post]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('posts/logs', [PostController::class, 'logs'])->name('posts.logs');
+
+// Route::get('posts/logs', function () {
+//     $logs = DB::table('post_logs')->get();
+//     return view('posts.logs', compact('logs'));
+// })->name('posts.logs');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -45,7 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
     Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('posts/{post}/delete', [PostController::class, 'destroy'])->name('posts.destroy');
-
+    Route::get('posts/logs', [PostController::class, 'logs'])->name('posts.logs');
+    // Route::get('posts/logs', function () {
+    //     dd('mashok');
+    //     $logs = DB::table('post_logs')->get();
+    //     return view('posts.logs', compact('logs'));
+    // })->name('posts.logs');
+    
     Route::resource('users', UserController::class);
     // Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);
@@ -54,7 +67,17 @@ Route::middleware('auth')->group(function () {
     // Endpoint untuk memanggil stored procedure
     Route::get('user/{id}/posts', function ($id) {
         $posts = DB::select('CALL GetUserPosts(?)', [$id]);
-        return view('posts.user_posts', ['posts' => $posts]);
+        $post_tag = DB::table('post_tag')
+            ->join('user_posts', 'user_posts.post_id', '=', 'post_tag.post_id')
+            ->join('tags', 'tags.id', '=', 'post_tag.tag_id')
+            ->select('user_posts.post_id','user_posts.user_name', 'tags.id', 'tags.name')
+            ->get();
+
+        $tags_by_post = [];
+        foreach ($post_tag as $tag) {
+            $tags_by_post[$tag->post_id][] = $tag;
+        }
+        return view('posts.mypost', ['posts' => $posts, 'tags_by_post' => $tags_by_post]);
     })->name('user.posts');
 });
 

@@ -37,6 +37,12 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('user.posts', auth()->user()->id)">
+                            {{ __('My Posts') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('posts.logs')">
+                            {{ __('Show Logs') }}
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
