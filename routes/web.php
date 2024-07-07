@@ -15,7 +15,19 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     $posts = DB::table('user_posts')->get();
-    return view('dashboard', ['posts' => $posts]);
+
+    $post_tag = DB::table('post_tag')
+        ->join('user_posts', 'user_posts.post_id', '=', 'post_tag.post_id')
+        ->join('tags', 'tags.id', '=', 'post_tag.tag_id')
+        ->select('user_posts.post_id','user_posts.user_name', 'tags.id', 'tags.name')
+        ->get();
+
+    $tags_by_post = [];
+    foreach ($post_tag as $tag) {
+        $tags_by_post[$tag->post_id][] = $tag;
+    }
+
+    return view('dashboard', ['posts' => $posts, 'tags_by_post' => $tags_by_post]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

@@ -14,6 +14,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = DB::table('user_posts')->get();
+        $tag = DB::table('tags')->get();
+        
         return view('posts.index', compact('posts'));
     }
 
