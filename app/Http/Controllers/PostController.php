@@ -42,14 +42,14 @@ class PostController extends Controller
         return view('posts.show', compact('post', 'user'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
         $validated = $request->validate([
             'title' => 'required',
             'content' => 'required',
         ]);
 
-        $post = Post::find($request->user_id);
+        $post = Post::find($id);
         $post->update($validated);
         return redirect()->route('dashboard');
     }
