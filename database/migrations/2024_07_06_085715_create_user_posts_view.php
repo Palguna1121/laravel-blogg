@@ -12,7 +12,7 @@ class CreateUserPostsView extends Migration
             DB::unprepared('DROP VIEW IF EXISTS user_posts');
             DB::unprepared('
                 CREATE VIEW user_posts AS
-                SELECT users.name as user_name, posts.title, posts.content
+                SELECT users.id as user_id, users.name as user_name, posts.id as post_id, posts.title, posts.content
                 FROM posts
                 JOIN users ON posts.user_id = users.id;
             ');
@@ -20,7 +20,7 @@ class CreateUserPostsView extends Migration
             DB::unprepared('DROP VIEW IF EXISTS user_posts');
             DB::unprepared('
                 CREATE OR REPLACE VIEW user_posts AS
-                SELECT users.name as user_name, posts.title, posts.content
+                SELECT users.id as user_id, users.name as user_name, posts.id as post_id, posts.title, posts.content
                 FROM posts
                 JOIN users ON posts.user_id = users.id;
             ');

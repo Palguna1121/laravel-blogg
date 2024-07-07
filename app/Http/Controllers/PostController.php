@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
@@ -27,15 +28,17 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required',
             'content' => 'required',
-            'user_id' => 'required|exists:users,id',
         ]);
 
+        $validated['user_id'] = Auth::id();
+
         Post::create($validated);
-        return redirect()->route('posts.index');
+        return redirect()->route('dashboard');
     }
 
     public function show(Post $post)
     {
-        return view('posts.show', compact('post'));
+        $user = User::find($post->user_id);
+        return view('posts.show', compact('post', 'user'));
     }
 }
