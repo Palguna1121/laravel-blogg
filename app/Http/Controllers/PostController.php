@@ -41,4 +41,23 @@ class PostController extends Controller
         $user = User::find($post->user_id);
         return view('posts.show', compact('post', 'user'));
     }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $post = Post::find($request->user_id);
+        $post->update($validated);
+        return redirect()->route('dashboard');
+    }
+
+    public function destroy(Post $post)
+    {
+        $post = Post::find($post->id);
+        $post->delete();
+        return redirect()->route('dashboard');
+    }
 }

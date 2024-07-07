@@ -55,15 +55,17 @@
             <button type="button" class="btn-close" data-modal-dismiss="editModalPost">&times;</button>
         </div>
         <div class="p-4">
-            <form action="{{ route('posts.store') }}" method="post">
+            <form action="{{ route('posts.update', $post->id) }}" method="POST">
             @csrf
+            @method('PUT')
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
             <div class="mb-4">
                 <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
                 <input type="text" id="title" value="{{ $post->title }}" name="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
             </div>
             <div class="mb-4">
                 <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-                <textarea id="content" name="content" value="{{ $post->content }}" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                <textarea id="content" name="content" value="{{ $post->content }}" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ $post->content }}</textarea>
             </div>
             <div class="flex justify-end">
                 <button type="button" id="close_modal" class="btn bg-gray-500 text-white px-4 py-2 rounded" data-modal-dismiss="editModalPost">Close</button>

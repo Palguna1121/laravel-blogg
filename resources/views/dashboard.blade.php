@@ -52,12 +52,16 @@
                             </div>
                             @if (Auth::user()->id == $post->user_id)
                                 <div class="flex items-center">
-                                    <a href="{{ route('posts.edit', $post->post_id) }}" class="text-black bg-amber-400">Edit</a>
-                                    <a href="{{ route('posts.destroy', $post->post_id) }}" class="text-black bg-red-500">Delete</a>
+                                    <a href="{{ route('posts.show', $post->post_id) }}" class="text-black bg-blue-500">View</a>
+                                    <form action="{{ route('posts.destroy', $post->post_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');" class="ml-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-white bg-red-500 px-4 py-2 rounded">Delete</button>
+                                    </form>
                                 </div>
                             @elseif (Auth::user()->id != $post->user_id)
                                 <div class="flex items-center">
-                                    <a href="{{ route('posts.show', $post->post_id) }}" class="text-blue-500">View</a>
+                                    <a href="{{ route('posts.show', $post->post_id) }}" class="text-white bg-blue-500">View</a>
                                 </div>
                             @endif
                         </span>

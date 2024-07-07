@@ -22,14 +22,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::get('/tuser', [UserController::class, 'index'])->name('tuser');
     Route::get('/tpost', [PostController::class, 'index'])->name('tpost');
     Route::get('/ttag', [TagController::class, 'index'])->name('ttag');
     Route::get('/tcomment', [CommentController::class, 'index'])->name('tcomment');
     Route::get('/tcategories', [CategoryController::class, 'index'])->name('tcategories');
 
+    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::post('/posts/store', [PostController::class, 'store'])->name('posts.store');
+    Route::put('posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('posts/{post}/delete', [PostController::class, 'destroy'])->name('posts.destroy');
+
     Route::resource('users', UserController::class);
-    Route::resource('posts', PostController::class);
+    // Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);
     Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
 
