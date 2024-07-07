@@ -10,27 +10,26 @@
   <body>
 
 {{-- navbar --}}
+
 <div class="container">
-  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom align-items-center">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
       <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
       <span class="fs-4 fw-bold">BLOOGG</span>
     </a>
 
-    <ul class="nav nav-pills">
-      <li class="nav-item"><a href="#" class="nav-link" aria-current="page">Home</a></li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Dropdown
-        </a>
-        <ul class="dropdown-menu">
-          <li class="nav-item"><a href="{{route("tuser")}}" class="nav-link">Users</a></li>
-          <li class="nav-item"><a href="{{route("ttag")}}" class="nav-link">Tag</a></li>
-          <li class="nav-item"><a href="{{route("tpost")}}" class="nav-link">Post</a></li>
-          <li class="nav-item"><a href="{{route("tcomment")}}" class="nav-link">Comment</a></li>
-          <li class="nav-item"><a href="{{route("tcategories")}}" class="nav-link">Category</a></li>
-      </li>
-    </ul>
+    <nav>
+      @guest
+          <a href="{{ route('login') }}" class="px-3">Login</a>
+          <a href="{{ route('register') }}">Register</a>
+      @else
+          <a href="{{ route('user.posts', auth()->user()->id) }}">My Posts</a>
+          <form action="{{ route('logout') }}" method="POST">
+              @csrf
+              <button type="submit">Logout</button>
+          </form>
+      @endguest
+  </nav>
   </header>
 </div>
 {{-- end --}}

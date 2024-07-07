@@ -1,76 +1,73 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-        <div class="flex justify-around">
+        
+        <div class="flex justify-around items-center">
             <h3 class="text-lg font-semibold text-white">All Post</h3>
-            <div class="btn bg-blue-500 text-white px-4 py-2 rounded cursor-pointer" data-modal-target="#addModalPost">
-                Add your Post
+            <div class="btn bg-blue-500 text-white px-4 py-2 rounded cursor-pointer flex items-center" data-modal-target="#addModalPost">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>  
+                <span class="px-2">
+                    Add your Post
+                </span>
             </div>
         </div>
     </x-slot>
 
-    {{-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+
+    {{-- tabel --}}
+    <div class="container mx-auto mt-5 flex flex-col items-center">
+        @foreach ($posts as $post)
+        <div class="max-w-2xl w-full p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-5 h-72 flex flex-col">
+            <div class="flex gap-3 bg-white border border-gray-300 rounded-xl overflow-hidden items-center justify-start flex-grow">
+                <div class="flex flex-col gap-2 py-2 px-3 flex-grow">
+                    <p class="text-xl font-bold">{{ $post->title }}</p>
+                    <hr class="my-1">
+                    <p class="text-gray-500 flex-grow  text-base">
+                        {{ $post->content }}
+                    </p>
+                    <span class="flex items-center justify-start text-gray-500 py-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.753 18.305c-.261-.586-.789-.991-1.871-1.241-2.293-.529-4.428-.993-3.393-2.945 3.145-5.942.833-9.119-2.489-9.119-3.388 0-5.644 3.299-2.489 9.119 1.066 1.964-1.148 2.427-3.393 2.945-1.084.25-1.608.658-1.867 1.246-1.405-1.723-2.251-3.919-2.251-6.31 0-5.514 4.486-10 10-10s10 4.486 10 10c0 2.389-.845 4.583-2.247 6.305z"/></svg>
+                        <a href="{{ route('posts.show', $post->user_id) }}" class="px-3 font-bold" target="_blank">{{ $post->user_name }}</a>
+                    </span>
+    
+                    <span class="flex items-center justify-between text-gray-500 ">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M10.773 21.585l-1.368 1.415-10.405-10.429v-8.571h2v7.719l9.773 9.866zm1.999-20.585h-9.772v9.772l12.074 12.228 9.926-9.85-12.228-12.15zm-4.772 7c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2z" /></svg>
+                           <span class="px-3"> {{ 'test' }} </span>
+                        </div>
+                        @if (Auth::user()->id == $post->user_id)
+                            <div class="flex items-center">
+                                <a href="{{ route('posts.show', $post->post_id) }}" class="text-black bg-blue-500 px-4 py-2 rounded">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+                                    </span>
+                                </a>
+                                <form action="{{ route('posts.destroy', $post->post_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');" class="ml-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-white bg-red-500 px-4 py-2 rounded">
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256"><path fill="currentColor" d="M216 48h-40v-8a24 24 0 0 0-24-24h-48a24 24 0 0 0-24 24v8H40a8 8 0 0 0 0 16h8v144a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16V64h8a8 8 0 0 0 0-16M112 168a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Zm48 0a8 8 0 0 1-16 0v-64a8 8 0 0 1 16 0Zm0-120H96v-8a8 8 0 0 1 8-8h48a8 8 0 0 1 8 8Z"/></svg>
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        @elseif (Auth::user()->id != $post->user_id)
+                            <div class="flex items-center">
+                                <a href="{{ route('posts.show', $post->post_id) }}" class="text-white bg-blue-500 px-4 py-2 rounded">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+                                    </span>
+                                </a>
+                            </div>
+                        @endif
+                    </span>
                 </div>
             </div>
         </div>
-    </div> --}}
-
-    {{-- tabel --}}
-    <div class="container mx-auto mt-5">
-            @foreach ($posts as $post)
-            <div class="max-w-2xl mx-auto mt-3">
-                <div class="flex gap-3 bg-white border border-gray-300 rounded-xl overflow-hidden items-center justify-start">
-            
-                    {{-- <div class="relative w-32 h-32 flex-shrink-0">
-                        <img class="absolute left-0 top-0 w-full h-full object-cover object-center transition duration-50" loading="lazy" src="https://via.placeholder.com/150">
-                    </div> --}}
-            
-                    <div class="flex flex-col gap-2 py-2 px-3">
-                        <p class="text-xl font-bold">{{ $post->title }}</p>
-                        <p class="text-gray-500">
-                            {{ $post->content }}
-                        </p>
-                        <span class="flex items-center justify-start text-gray-500">
-                            <svg class="w-4 h-4 mr-1 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"></path>
-                            </svg>
-                            <a href="{{ route('posts.show', $post->user_id) }}" target="_blank">{{ $post->user_name }}</a>
-                        </span>
-
-                        <span class="flex items-center justify-between text-gray-500">
-                            <div class="flex items-center">
-                                <svg class="w-4 h-4 mr-1 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                </svg>
-                                {{ 'test' }}
-                            </div>
-                            @if (Auth::user()->id == $post->user_id)
-                                <div class="flex items-center">
-                                    <a href="{{ route('posts.show', $post->post_id) }}" class="text-black bg-blue-500 px-4 py-2 rounded">View</a>
-                                    <form action="{{ route('posts.destroy', $post->post_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');" class="ml-2">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-white bg-red-500 px-4 py-2 rounded">Delete</button>
-                                    </form>
-                                </div>
-                            @elseif (Auth::user()->id != $post->user_id)
-                                <div class="flex items-center">
-                                    <a href="{{ route('posts.show', $post->post_id) }}" class="text-white bg-blue-500 px-4 py-2 rounded">View</a>
-                                </div>
-                            @endif
-                        </span>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-
+        @endforeach
     </div>
+    >
+    
     {{-- end tabel --}}
   
     {{-- modal add --}}
@@ -78,7 +75,12 @@
         <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all max-w-lg w-full">
         <div class="bg-gray-100 p-4 flex justify-between items-center">
             <h1 class="text-lg font-semibold">Create Post</h1>
-            <button type="button" class="btn-close" data-modal-dismiss="addModalPost">&times;</button>
+            <button data-modal-dismiss="addModalPost" class="cursor-pointer">
+                <span >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 5L5 19M5 5l14 14" color="currentColor"/></svg>
+                </span>
+            </button>
+            
         </div>
         <div class="p-4">
             <form action="{{ route('posts.store') }}" method="post">
